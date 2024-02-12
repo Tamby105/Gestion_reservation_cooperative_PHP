@@ -1,7 +1,7 @@
 <?php
-require_once "configs/database.php";
+require_once "../configs/database.php";
 abstract class connexion_class{
-    public static $pdo;
+    private static $pdo;
 
     private static function setconnexionbd(){
 
