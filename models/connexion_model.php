@@ -1,5 +1,5 @@
 <?php
-require_once "../configs/database.php";
+require_once "configs/database.php";
 abstract class connexion_class{
     private static $pdo;
 
