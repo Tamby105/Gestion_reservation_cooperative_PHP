@@ -1,7 +1,7 @@
 <?php 
 require_once "connexion_model.php";
 
-class voiture_model extends voiture_model
+class voiture_model extends connexion_class
 {
     private $idvoit;
     private $design;
@@ -15,10 +15,10 @@ class voiture_model extends voiture_model
     public function __construct($idvoit,$design,$types,$nbrplace,$frais)
     {
         $this->idvoit = $idvoit;
-        $this->$design = $design;
-        $this->$types = $types;
-        $this->$nbrplace = $nbrplace;
-        $this->$frais = $frais;
+        $this->design = $design;
+        $this->types = $types;
+        $this->nbrplace = $nbrplace;
+        $this->frais = $frais;
     }
 
    /*********************** Init_Accesseur ************************/
@@ -78,7 +78,7 @@ class voiture_model extends voiture_model
 
    public function chargementvoiture()
    {
-       $query = $this->getconnexionbd()->prepare("SELECT * FROM `voiture`");
+       $query = $this->getconnexionbd()->prepare("SELECT * FROM voiture");
        $query->execute();
        $voitureDatas = $query->fetchAll(PDO::FETCH_ASSOC);
        $query->closeCursor();
@@ -86,7 +86,7 @@ class voiture_model extends voiture_model
        foreach($voitureDatas as $voiture)
        {
            $voitureListe = new voiture_model($voiture['idvoit'],$voiture['design'],$voiture['types'],$voiture['nbrplace'],$voiture['frais']);
-           $this->setplace($voitureListe);
+           $this->setvoiture($voitureListe);
        }
    }
 
@@ -101,7 +101,7 @@ class voiture_model extends voiture_model
        }
    }
 
-   public function ajoutvoitureBd($idvoit,$design,$type,$nbrplace,$occupation)
+   public function ajoutvoitureBd($idvoit,$design,$types,$nbrplace,$frais)
    {
        $queryStr = "INSERT INTO voiture (idvoit, design, types, nbrplace, frais) VALUES(:idvoit, :design, :types, :nbrplace, :frais)";
        $query = $this->getconnexionbd()->prepare($queryStr);
@@ -135,24 +135,28 @@ class voiture_model extends voiture_model
        }
    }
 
-   public function modificationvoitureBD($idvoit,$design,$types,$nbrplace,$frais)
+   public function modificationvoitureBD($idvoit,$design,$types,$nbrplace,$frais,$idvoit_obsolete)
    {
-       $queryStr = "UPDATE voiture SET design = :design, types = :types, nbrplace = :nbrplace, frais = :frais WHERE idvoit = :idvoit";
+       $queryStr = "UPDATE voiture SET idvoit = :idvoit, design = :design, types = :types, nbrplace = :nbrplace, frais = :frais WHERE idvoit = :idvoit_obsolete";
        $query = $this->getconnexionbd()->prepare($queryStr);
        $query->bindValue(":design",$design,PDO::PARAM_STR);
        $query->bindValue(":types",$types,PDO::PARAM_STR);
        $query->bindValue(":nbrplace",$nbrplace,PDO::PARAM_INT);
        $query->bindValue(":frais",$frais,PDO::PARAM_INT);
        $query->bindValue(":idvoit",$idvoit,PDO::PARAM_STR);
+       $query->bindValue(":idvoit_obsolete",$idvoit_obsolete,PDO::PARAM_STR);
+
+
        $resultat = $query->execute();
        $query->closeCursor();
        /////////////////////////////////////////////
        if($resultat > 0)
        {
-           $this->getvoitureById($idvoit)->setdesign($design);
-           $this->getvoitureById($idvoit)->settypes($types);
-           $this->getvoitureById($idvoit)->setnbrplace($nbrplace);
-           $this->getvoitureById($idvoit)->setfrais($frais);
+           $this->getvoitureById($idvoit_obsolete)->setdesign($idvoit);
+           $this->getvoitureById($idvoit_obsolete)->setdesign($design);
+           $this->getvoitureById($idvoit_obsolete)->settypes($types);
+           $this->getvoitureById($idvoit_obsolete)->setnbrplace($nbrplace);
+           $this->getvoitureById($idvoit_obsolete)->setfrais($frais);
        }
    }
 }

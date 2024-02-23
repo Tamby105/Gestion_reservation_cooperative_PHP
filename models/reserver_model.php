@@ -1,7 +1,7 @@
 <?php 
 require_once "connexion_model.php";
 
-class reserver_model extends reserver_model
+class reserver_model extends connexion_class
 {
     private $idreserv;
     private $idvoit;

@@ -13,7 +13,7 @@ class client_model extends connexion_class
     public function __construct($idcli,$nom,$numtel)
     {
         $this->idcli = $idcli;
-        $this->$nom = $nom;
+        $this->nom = $nom;
         $this->numtel = $numtel;
     }
 
@@ -54,7 +54,7 @@ class client_model extends connexion_class
 
     public function chargementclient()
     {
-        $query = $this->getconnexionbd()->prepare("SELECT * FROM `client`");
+        $query = $this->getconnexionbd()->prepare("SELECT * FROM client");
         $query->execute();
         $clientDatas = $query->fetchAll(PDO::FETCH_ASSOC);
         $query->closeCursor();
@@ -79,7 +79,7 @@ class client_model extends connexion_class
 
     public function ajoutclientBd($idcli,$nom,$numtel)
     {
-        $queryStr = "INSERT INTO client (idcli, nom, numtel) VALUES(:idcli, :nbPages, :numtel)";
+        $queryStr = "INSERT INTO client (idcli, nom, numtel) VALUES(:idcli, :nom, :numtel)";
         $query = $this->getconnexionbd()->prepare($queryStr);
         $query->bindValue(":idcli",$idcli,PDO::PARAM_STR);
         $query->bindValue(":nom",$nom,PDO::PARAM_STR);
@@ -109,24 +109,24 @@ class client_model extends connexion_class
         }
     }
 
-    public function modificationclientBD($idcli,$nom,$numtel)
+    public function modificationclientBD($idcli,$nom,$numtel,$idcli_obsolete)
     {
-        $queryStr = "UPDATE client SET nom = :nom, numtel = :numtel WHERE idcli = :idcli";
+        $queryStr = "UPDATE client SET idcli = :idcli, nom = :nom, numtel = :numtel WHERE idcli = :idcli_obsolete" ;
         $query = $this->getconnexionbd()->prepare($queryStr);
         $query->bindValue(":idcli",$idcli,PDO::PARAM_STR);
         $query->bindValue(":nom",$nom,PDO::PARAM_STR);
         $query->bindValue(":numtel",$numtel,PDO::PARAM_STR);
+        $query->bindValue(":idcli_obsolete",$idcli_obsolete,PDO::PARAM_STR);
+
         $resultat = $query->execute();
         $query->closeCursor();
         //actualisation interface
         if($resultat > 0)
         {
-            $this->getclientById($idcli)->setTitre($nom);
-            $this->getclientById($idcli)->setNbPages($numtel);
+            $this->getclientById($idcli_obsolete)->setIdcli($idcli);
+            $this->getclientById($idcli_obsolete)->setnom($nom);
+            $this->getclientById($idcli_obsolete)->setnumtel($numtel);
         }
     }
-    /*public function testco(){
-        var_dump($this->getconnexionbd());
-    }*/
 }
 ?>

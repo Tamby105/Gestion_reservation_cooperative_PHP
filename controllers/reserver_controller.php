@@ -1,5 +1,5 @@
 <?php 
-require_once "../models/reserver_model.php";
+require_once "models/reserver_model.php";
 
 class reserver_controller
 {

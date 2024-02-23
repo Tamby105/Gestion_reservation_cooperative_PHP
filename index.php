@@ -29,7 +29,13 @@
 define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS']) ? "https" : "http").
 "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]"));
 require_once "controllers/client_controller.php";
+require_once "controllers/voiture_controller.php";
+//require_once "controllers/place_controller.php";
+require_once "controllers/reserver_controller.php";
 $clients = new client_controller();
+$voitures = new voiture_controller();
+//$places = new place_controller();
+$reserver = new reserver_controller();
 
 try{
     if(empty($_GET['page']))
@@ -49,43 +55,71 @@ try{
             {
                 $clients->controller_vue_client();
             } 
-           //pour le detail
-
-            /*else if($url[1] === "caf") 
-            {
-                $client_controller->controller_afficherlivre($url[2]);
-            } */
             else if($url[1] === "interfaceajout") 
             {
                 $clients->controller_page_ajoutclient();
-            } 
-            /*else if($url[1] === "cpmo") 
-            {
-                $client_controller->controller_page_modificationlivre($url[2]);
-            } 
-            else if($url[1] === "csu") 
-            {
-                $client_controller->controller_suppressionlivre($url[2]);
-            } 
-            else if($url[1] === "caj") 
-            {
-                $client_controller->controller_ajoutlivre();
-            } 
-            else if($url[1] === "cmo") 
-            {
-                $client_controller->controller_modificationlivre();
             }
-            else if($url[1] === "cprmo") 
+            else if($url[1] === "ajouterbdd") 
             {
-                $client_controller->controller_page_retour_modificationlivre();
+                $clients->controller_ajoutclient();
+            }
+            else if($url[1] === "interfacemodif") 
+            {
+                $clients->controller_page_modification_client($url[2]);
+            } 
+            else if($url[1] === "modifBdd") 
+            {
+                $clients->controller_modification_client();
+            }
+            else if($url[1] === "suppr") 
+            {
+                $clients->controller_suppression_client($url[2]);
+            } 
+            /*else if($url[1] === "cprmo") 
+            {
+                $voitures->controller_page_retour_modificationlivre();
             }*/
             else
             {
                 throw new Exception("La page n'existe pas");
             }
         }
-    }
-    
+        elseif($url[0]=="voiture")
+        {
+            if(empty($url[1]))
+            {
+                $voitures->controller_vue_voiture();
+            } 
+            else if($url[1] === "interfaceajout") 
+            {
+                $voitures->controller_page_ajoutvoiture();
+            }
+            else if($url[1] === "ajouterbdd") 
+            {
+                $voitures->controller_ajoutvoiture();
+            }
+            else if($url[1] === "interfacemodif") 
+            {
+                $voitures->controller_page_modification_voitures($url[2]);
+            } 
+            else if($url[1] === "modifBdd") 
+            {
+                $voitures->controller_modification_voiture();
+            }
+            else if($url[1] === "suppr") 
+            {
+                $voitures->controller_suppression_voiture($url[2]);
+            } 
+            /*else if($url[1] === "cprmo") 
+            {
+                $clients->controller_page_retour_modificationlivre();
+            }*/
+            else
+            {
+                throw new Exception("La page n'existe pas");
+            }
+        }
+    }        
 }
 catch(Exception $e)
 {

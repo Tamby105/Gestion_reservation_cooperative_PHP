@@ -31,13 +31,13 @@ class client_controller
     public function controller_ajoutclient()
     {
         $this->clients->ajoutclientBd($_POST['idcli'],$_POST['nom'],$_POST['numtel']);
-        //header('Location: '. URL . "livres");
+        header('Location: '. URL . "client");
     }
 
     public function controller_suppression_client($idcli)
     {
         $this->clients->suppressionclient($idcli);
-        //header('Location: '. URL . "livres");
+        header('Location: '. URL . "client");
     }
 
     public function controller_page_modification_client($idcli)//donne une interface de modification
@@ -54,8 +54,8 @@ class client_controller
 
     public function controller_modification_client()//modificaation bases de donnees
     {
-        $this->clients->modificationclientBD($_POST['idcli'],$_POST['nom'],$_POST['numtel']);
-        //header('Location: '. URL . "livres");
+        $this->clients->modificationclientBD($_POST['idcli'],$_POST['nom'],$_POST['numtel'],$_POST['idtsycli']);
+        header('Location: '. URL . "client");
     }
 
 }   

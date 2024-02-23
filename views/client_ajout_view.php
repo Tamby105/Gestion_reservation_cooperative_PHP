@@ -14,10 +14,10 @@ ob_start();
         <label for="numtel">Numero telephone : </label>
         <input type="text" class="form-control" id="numtel" name="numtel">
     </div>
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
 </form>
 <?php
 $content = ob_get_clean();
-$titre = "Ajout d'un livre";
+$titre = "Ajout d'un client";
 require "template.php";
 ?>

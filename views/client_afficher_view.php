@@ -20,7 +20,7 @@ ob_start();
 
         <td class="align-middle"><a href="<?= URL ?>client/interfacemodif/<?= $clients[$i]->getIdcli(); ?>" class="btn btn-warning">Modifier</a></td>
         <td class="align-middle">
-            <form method="POST" action="<?= URL ?>client/suppr/<?= $clients[$i]->getIdcli(); ?>" onSubmit="return confirm('Voulez-vous vraiment supprimer le livre ?');">
+            <form method="POST" action="<?= URL ?>client/suppr/<?= $clients[$i]->getIdcli(); ?>" onSubmit="return confirm('Voulez-vous vraiment supprimer le client ?');">
                 <button class="btn btn-danger" type="submit">Supprimer</button>
             </form>
         </td>
@@ -31,6 +31,6 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-$titre = "Les client de la cooperative";
+$titre = "Les clients de la cooperative";
 require "template.php";
 ?>
