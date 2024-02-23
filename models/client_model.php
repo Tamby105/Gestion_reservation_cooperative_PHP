@@ -91,7 +91,10 @@ class client_model extends connexion_class
         {
             $client = new client_model($this->getconnexionbd()->lastInsertId(),$idcli,$nom,$numtel);
             $this->setclient($client);
-        }        
+        }     
+        /*else{
+            return confirm('la voiture existe deja');
+        }   */
     }
 
     public function suppressionclient($idcli)
